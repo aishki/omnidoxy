@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Omnidoxy - Explore Knowledge</title>
+    <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/homepage.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap"
       rel="stylesheet"
@@ -47,6 +49,13 @@
           where every question leads to another discovery." <br />
           <span class="author">- Abel Water</span>
         </p>
+
+        <!-- Scroll Button -->
+        <div class="main__action">
+          <a id="scroll-arrow" class="main__scroll" href="#">
+            <img src="assets/icons/scroll.png" alt="Scroll Down" width="30" />
+          </a>
+        </div>
       </div>
 
       <!-- Bottom Border with About Us -->
@@ -55,7 +64,10 @@
           <div class="diamond" style="--diamond-size: 10px"></div>
           <div class="diamond" style="--diamond-size: 10px"></div>
         </div>
-        <button class="about-us-btn">
+        <button
+          class="about-us-btn"
+          onclick="window.location.href='views/aboutus.html'"
+        >
           <img
             src="assets/icons/info-icon.png"
             alt="Info Icon"
@@ -65,5 +77,10 @@
         </button>
       </div>
     </div>
+
+    <!-- Placeholder for Section 2 -->
+    <div id="section-2-container"></div>
+
+    <script src="js/main.js"></script>
   </body>
 </html>
