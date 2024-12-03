@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Omnidoxy - Explore Knowledge</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/homepage.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Section 2: Homepage Content -->
+    <section id="section-2" class="homepage-section">
+      <div class="container">
+        <!-- Logo Top -->
+        <img
+          src="../assets/icons/logo-top.png"
+          alt="Logo Top"
+          class="logo-top"
+        />
+
+        <!-- Search Bar -->
+        <div class="search-container">
+          <div class="search-bar">
+            <button id="search-button" class="search-icon-button" type="button">
+              <img
+                src="../assets/icons/search-icon.png"
+                class="search-icon"
+                alt="Search Icon"
+                width="20"
+                height="20"
+              />
+            </button>
+            <input
+              id="search-input"
+              type="text"
+              class="search-input"
+              placeholder="Search for quotes..."
+            />
+          </div>
+        </div>
+
+        <!-- Logo Bottom -->
+        <img
+          src="../assets/icons/logo-bot.png"
+          alt="Logo Bottom"
+          class="logo-bot"
+        />
+
+        <!-- Description -->
+        <p class="description">
+          Omnidoxy is a creative writing platform designed to inspire writers
+          and ignite imagination. <br />
+          Discover a vast collection of unique descriptions, literary prompts,
+          and ideas across various genres <br />
+          and themes. Whether you’re a writer looking for inspiration or a
+          reader exploring imaginative <br />content, Omnidoxy offers a space
+          for creativity to thrive.
+        </p>
+      </div>
+
+      <!-- Search Results -->
+      <div id="results"></div>
+    </section>
+
+    <script src="../js/search.js"></script>
+    <script src="../js/main.js"></script>
+  </body>
+</html>
