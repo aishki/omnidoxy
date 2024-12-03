@@ -1,9 +1,63 @@
 /* results.css */
 body {
     font-family: 'Sora', sans-serif;
-    background-color: #f5f5f5;
     margin: 0;
     padding: 0;
+
+    background: url('../assets/images/bg-output.png') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    color: white;
+}
+
+/* Search Bar Styling */
+.search-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    margin: 10px 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 30px;
+    padding: 5px 10px;
+    width: 40vw;
+}
+
+.search-icon-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.search-icon {
+    margin-right: 10px;
+}
+
+.search-input {
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    flex-grow: 1;
+    outline: none;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
 }
 
 #results-section {
@@ -17,28 +71,89 @@ h1 {
 }
 
 #results-container {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     padding: 10px;
-    background-color: #fff;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .quote-item {
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4.5px);
+    -webkit-backdrop-filter: blur(4.5px);
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+.quote-item p {
+    margin: 0;
+}
+
 .quote-text {
-    font-size: 1.2rem;
-    color: #555;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    font-size: 1rem;
+    color: #ffffff;
+    padding: 20px 30px;
+    font-weight: lighter;
 }
 
 .quote-author {
     text-align: right;
     font-size: 1rem;
-    color: #888;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgb(97, 65, 18);
+    background: linear-gradient(117deg, rgba(97, 65, 18, 1) 0%, rgba(191, 128, 33, 1) 100%);
+    padding: 10px 30px;
+    font-weight: 600;
+}
+
+.highlight {
+    color: #92723F;
+    font-size: 1.5rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.results-container {
+    flex: 3;
+    overflow-y: auto;
+    /* Makes the results container scrollable */
+    padding: 20px;
+    height: 100%;
+    /* Ensures it spans the full height of the row */
+}
+
+.dictionary-container {
+    flex: 1;
+    position: sticky;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 20px;
+    padding: 20px 30px;
+    height: 80vh;
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(135, 126, 31, 0.37);
+    backdrop-filter: blur(4.5px);
+    -webkit-backdrop-filter: blur(4.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.dictionary-container h3 {
+    font-family: 'Caveat', cursive;
+    font-size: 3rem;
+    margin: 15px 0 30px 0;
+}
+
+.highlighted-word {
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+
+.synonyms, .definition {
+    font-size: 0.8rem;
+    line-height: 1.3rem;
 }
