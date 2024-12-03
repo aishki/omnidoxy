@@ -11,14 +11,49 @@
       href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!-- Search Results Section -->
-    <section id="results-section">
-      <div class="container">
-        <h1>Search Results</h1>
-        <div id="results-container"></div>
-        <!-- Display results here -->
+    <section id="results-section" class="results column">
+      <!-- Search Bar -->
+      <div class="search-container">
+        <div class="search-bar">
+          <button id="search-button" class="search-icon-button" type="button">
+            <img
+              src="../assets/icons/search-icon.png"
+              class="search-icon"
+              alt="Search Icon"
+              width="20"
+              height="20"
+            />
+          </button>
+          <input
+            id="search-input"
+            type="text"
+            class="search-input"
+            placeholder="Search for quotes..."
+          />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="results-container">
+          <div id="results-container"></div>
+          <!-- Display results here -->
+        </div>
+
+        <div id="dictionary-container" class="dictionary-container">
+          <h3>Dictionary</h3>
+          <p>Click a highlighted word to see synonyms and definitions.</p>
+
+          <div class="divider"></div>
+
+          <div id="dictionary-content" class="dictionary-content"></div>
+        </div>
       </div>
     </section>
 
