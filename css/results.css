@@ -104,17 +104,17 @@ h1 {
     text-align: right;
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.8);
-    background: rgb(97, 65, 18);
-    background: linear-gradient(117deg, rgba(97, 65, 18, 1) 0%, rgba(191, 128, 33, 1) 100%);
+    /* background: rgb(97, 65, 18);
+    background: linear-gradient(117deg, rgba(97, 65, 18, 1) 0%, rgba(191, 128, 33, 1) 100%); */
     padding: 10px 30px;
     font-weight: 600;
 }
 
 .highlight {
-    color: #92723F;
+    /* color: #92723F; */
     font-size: 1.5rem;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .results-container {
@@ -140,7 +140,19 @@ h1 {
     -webkit-backdrop-filter: blur(4.5px);
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.18);
+
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    /* Hides scrollbar for IE and Edge */
+    scrollbar-width: none;
+    /* Hides scrollbar for Firefox */
 }
+
+.dictionary-container::-webkit-scrollbar {
+    display: none;
+    /* Hides scrollbar for Chrome, Safari, and Opera */
+}
+
 
 .dictionary-container h3 {
     font-family: 'Caveat', cursive;
@@ -148,12 +160,76 @@ h1 {
     margin: 15px 0 30px 0;
 }
 
+.phonetic {
+    margin: 0;
+}
+
 .highlighted-word {
     text-transform: uppercase;
     font-size: 1.2rem;
+    margin: 40px 0 0;
 }
 
-.synonyms, .definition {
+.phonetic {
+    font-size: 1rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.audio-icon {
+    font-size: 1.2rem;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.audio-icon:hover {
+    color: #05192e;
+}
+
+/* Styling for parts of speech */
+.part-of-speech {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-style: italic;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+/* Styling for synonyms */
+
+.synonyms-label {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 1rem;
+}
+
+.synonyms-entry {
     font-size: 0.8rem;
+    font-style: italic;
+}
+
+.definition, .synonyms-entry {
+    margin: 5px 0 0 10px;
+}
+
+/* Styling for definitions */
+.definition {
+    font-size: 0.8rem;
+    color: #ffffff;
+    line-height: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.definition-entry {
+    margin: 15px 0;
+}
+
+.synonyms-label, .definition-label {
     line-height: 1.3rem;
+    text-transform: uppercase;
+    margin: 30px 0 0 0;
+    font-size: 0.9rem;
 }

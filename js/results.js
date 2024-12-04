@@ -1,102 +1,157 @@
-// Get query from the URL
-const urlParams = new URLSearchParams(window.location.search);
-const query = urlParams.get("query");
+// Define default and emotion-specific colors
+const defaultBackground =
+  "linear-gradient(117deg, rgba(97, 65, 18, 1) 0%, rgba(191, 128, 33, 1) 100%)";
+const defaultHighlightColor = "#92723F";
 
-const resultsContainer = document.getElementById("results-container");
-const dictionaryContainer = document.getElementById("dictionary-container");
-const dictionaryContent = document.getElementById("dictionary-content");
+// Emotion-based color mappings
+const emotionColors = {
+  love: {
+    gradient:
+      "linear-gradient(117deg, rgba(173,0,82,1) 0%, rgba(255,170,205,1) 100%)",
+    highlight: "#AD0052", // Deep magenta
+  },
+  sad: {
+    gradient:
+      "linear-gradient(117deg, rgba(72,0,173,1) 0%, rgba(58,160,231,1) 100%)",
+    highlight: "#4800AD", // Indigo
+  },
+  anger: {
+    gradient:
+      "linear-gradient(117deg, rgba(0,0,0,1) 0%, rgba(160,18,18,1) 100%)",
+    highlight: "#A01212", // Crimson red
+  },
+  happy: {
+    gradient:
+      "linear-gradient(117deg, rgba(194,133,0,1) 0%, rgba(255,143,0,1) 54%, rgba(194,255,184,1) 100%)",
+    highlight: "#C28500", // Gold
+  },
+};
 
-// Stopwords for NLP logic
-const stopwords = [
-  "the",
-  "and",
-  "or",
-  "is",
-  "a",
-  "of",
-  "to",
-  "in",
-  "youll",
-  "youre",
-  "everyone",
-];
+// Function to get colors for the provided emotion
+function getColorsForEmotion(emotion) {
+  return (
+    emotionColors[emotion] || {
+      gradient: defaultBackground,
+      highlight: defaultHighlightColor,
+    }
+  );
+}
 
-// Function to highlight words dynamically and avoid duplicates
-function highlightWords(quote) {
+// Highlight words dynamically with click functionality
+function highlightWords(quote, highlightColor, onClickHandler) {
   const words = quote.split(" ");
   const numToHighlight = words.length > 20 ? 2 : 1;
 
-  // Simple NLP: Select longer words and exclude stopwords
+  const stopwords = [
+    "the",
+    "and",
+    "or",
+    "is",
+    "a",
+    "of",
+    "to",
+    "in",
+    "youll",
+    "youre",
+    "everyone",
+  ];
+
   const candidates = words
-    .map((word) => word.replace(/[^a-zA-Z]/g, "")) // Normalize by stripping punctuation
+    .map((word) => word.replace(/[^a-zA-Z]/g, ""))
     .filter(
       (word) => !stopwords.includes(word.toLowerCase()) && word.length > 4
     );
 
-  const highlightedWords = new Set(); // Track highlighted words
+  const highlightedWords = new Set();
   const selectedWords = [];
 
-  // Select words to highlight (ensuring no duplicates)
   for (const word of candidates) {
     if (!highlightedWords.has(word.toLowerCase())) {
       selectedWords.push(word);
       highlightedWords.add(word.toLowerCase());
     }
-    if (selectedWords.length >= numToHighlight) break; // Stop after selecting required number
+    if (selectedWords.length >= numToHighlight) break;
   }
 
-  // Wrap selected words with <span> for highlighting
   return words
     .map((word) => {
-      const cleanWord = word.replace(/[^a-zA-Z]/g, ""); // Strip punctuation for matching
+      const cleanWord = word.replace(/[^a-zA-Z]/g, "");
       if (selectedWords.includes(cleanWord)) {
-        selectedWords.splice(selectedWords.indexOf(cleanWord), 1); // Remove to avoid reusing
-        return `<span class="highlight">${word}</span>`;
+        return `<span class="highlight" style="color: ${highlightColor};" onclick="${onClickHandler}('${cleanWord}')">${word}</span>`;
       }
       return word;
     })
     .join(" ");
 }
 
-// Function to fetch synonyms and definitions from Datamuse API
+// Fetch synonyms and definitions from APIs
 async function fetchWordDetails(word) {
+  const merriamApiKey = "1cf60e33-e2e6-4a59-ba71-4a487661d9ec";
+  const merriamUrl = `https://www.dictionaryapi.com/api/v3/references/sd4/json/${word}?key=${merriamApiKey}`;
+  const datamuseUrl = `https://api.datamuse.com/words?rel_syn=${word}`;
+
   try {
-    const [synonymsRes, definitionRes] = await Promise.all([
-      fetch(`https://api.datamuse.com/words?rel_syn=${word}`),
-      fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`),
+    const [merriamResponse, datamuseResponse] = await Promise.all([
+      fetch(merriamUrl),
+      fetch(datamuseUrl),
     ]);
 
-    const synonyms = await synonymsRes.json();
-    const definitions = await definitionRes.json();
+    const merriamData = await merriamResponse.json();
+    const datamuseData = await datamuseResponse.json();
 
-    return {
-      synonyms: synonyms.map((syn) => syn.word).slice(0, 5),
-      definitions: definitions[0]?.meanings[0]?.definitions || [],
-    };
+    const phonetic = merriamData[0]?.hwi?.prs[0]?.mw || "N/A";
+    const audio = merriamData[0]?.hwi?.prs[0]?.sound?.audio || null;
+    const definitions = merriamData.map((entry) => ({
+      partOfSpeech: entry.fl || "Other definition:",
+      definition: entry.shortdef.join(", "),
+    }));
+    const synonyms = datamuseData.map((item) => item.word);
+
+    return { phonetic, audio, definitions, synonyms };
   } catch (error) {
     console.error("Error fetching word details:", error);
-    return { synonyms: [], definitions: [] };
+    return {
+      phonetic: "Error",
+      audio: null,
+      definitions: [
+        { partOfSpeech: "Error", definition: "Error fetching details." },
+      ],
+      synonyms: ["Error fetching synonyms."],
+    };
   }
 }
 
-// Function to display word details in the dictionary container
+// Display word details in a modal or container
 function displayWordDetails(word, details) {
-  const { synonyms, definitions } = details;
+  const dictionaryContent = document.getElementById("dictionary-content");
+  const { phonetic, audio, definitions, synonyms } = details;
 
   dictionaryContent.innerHTML = `
     <h4 class="highlighted-word">${word}</h4>
-    <p class="synonyms"><strong>SYNONYMS:</strong><br> ${
-      synonyms.join(", ") || "None"
-    }</p>
-    <p class="definition"><strong>DEFINITION:</strong><br> ${
-      definitions.length > 0
-        ? definitions[0].definition
-        : "No definition available."
-    }</p>
+    <p class="phonetic">${phonetic}
+      ${
+        audio
+          ? `<span class="audio-icon" onclick="playAudio('${audio}')">🔊</span>`
+          : ""
+      }
+    </p>
+    <p class="synonyms-label"><strong>SYNONYMS:</strong></p>
+    <p class="synonyms-entry">${synonyms.join(", ")}</p>
+    <p class="definition-label"><strong>Definition:</strong></p>
+    ${definitions
+      .map(
+        ({ partOfSpeech, definition }) => `
+      <div class="definition-entry">
+        <p class="part-of-speech">${partOfSpeech}</p>
+        <p class="definition">${definition}</p>
+      </div>
+    `
+      )
+      .join("")}
   `;
 }
 
-// Function to fetch and render quotes
+// Fetch and display quotes
 async function getData(query) {
   const apiUrl = `http://localhost:8080/https://favqs.com/api/quotes/?filter=${query}`;
 
@@ -107,66 +162,59 @@ async function getData(query) {
       },
     });
 
-    // Handle HTTP errors
     if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error("No quotes found for the query.");
-      } else if (response.status === 401) {
-        throw new Error("Unauthorized: Check your API token.");
-      } else {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
-      }
+      throw new Error("Error fetching quotes.");
     }
 
     const data = await response.json();
+    const resultsContainer = document.getElementById("results-container");
 
-    // Clear previous results
     resultsContainer.innerHTML = "";
 
-    // Check if quotes are found
     if (data.quotes.length === 0) {
-      resultsContainer.textContent = "No quotes found. Try a different search!";
+      resultsContainer.textContent = "No quotes found.";
       return;
     }
 
-    // Display results
+    const { gradient, highlight } = getColorsForEmotion(query);
+
     data.quotes.forEach(({ body, author }) => {
       const quoteElement = document.createElement("div");
       quoteElement.classList.add("quote-item");
 
-      // Highlight words in the quote
-      const highlightedQuote = highlightWords(body);
+      const highlightedQuote = highlightWords(
+        body,
+        highlight,
+        "handleWordClick"
+      );
 
       const quoteText = document.createElement("p");
       quoteText.innerHTML = `"${highlightedQuote}"`;
       quoteText.classList.add("quote-text");
 
       const authorText = document.createElement("p");
-      authorText.textContent = `${author}`;
+      authorText.textContent = author;
       authorText.classList.add("quote-author");
+      authorText.style.background = gradient;
 
       quoteElement.appendChild(quoteText);
       quoteElement.appendChild(authorText);
       resultsContainer.appendChild(quoteElement);
 
-      // Add click listeners to highlighted words
-      quoteText.querySelectorAll(".highlight").forEach((span) => {
-        span.addEventListener("click", async () => {
-          const word = span.textContent;
+      document.querySelectorAll(".highlight").forEach((span) =>
+        span.addEventListener("click", async (e) => {
+          const word = e.target.textContent;
           const details = await fetchWordDetails(word);
           displayWordDetails(word, details);
-        });
-      });
+        })
+      );
     });
   } catch (error) {
-    resultsContainer.textContent = "An error occurred while fetching results.";
     console.error("Error:", error);
   }
 }
 
-// Call the fetch function
-if (query) {
-  getData(query);
-} else {
-  resultsContainer.textContent = "No search query provided.";
-}
+// Run
+const query = new URLSearchParams(window.location.search).get("query");
+if (query) getData(query);
+else document.getElementById("results-container").textContent = "No query.";
