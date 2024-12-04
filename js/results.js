@@ -10,12 +10,22 @@ const emotionColors = {
       "linear-gradient(117deg, rgba(173,0,82,1) 0%, rgba(255,170,205,1) 100%)",
     highlight: "#AD0052", // Deep magenta
   },
+  romance: {
+    gradient:
+      "linear-gradient(117deg, rgba(0,0,0,1) 0%, rgba(160,18,18,1) 100%)",
+    highlight: "#A01212", // Crimson red
+  },
   sad: {
     gradient:
       "linear-gradient(117deg, rgba(72,0,173,1) 0%, rgba(58,160,231,1) 100%)",
     highlight: "#4800AD", // Indigo
   },
   anger: {
+    gradient:
+      "linear-gradient(117deg, rgba(0,0,0,1) 0%, rgba(160,18,18,1) 100%)",
+    highlight: "#A01212", // Crimson red
+  },
+  rage: {
     gradient:
       "linear-gradient(117deg, rgba(0,0,0,1) 0%, rgba(160,18,18,1) 100%)",
     highlight: "#A01212", // Crimson red

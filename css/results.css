@@ -130,7 +130,7 @@ h1 {
     flex: 1;
     position: sticky;
     top: 50%;
-    transform: translateY(-50%);
+    /* transform: translateY(-50%); */
     margin: 0 20px;
     padding: 20px 30px;
     height: 80vh;
