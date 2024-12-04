@@ -151,6 +151,13 @@ function displayWordDetails(word, details) {
   `;
 }
 
+function playAudio(audioFile) {
+  const audio = new Audio(
+    `https://media.merriam-webster.com/audio/prons/en/us/mp3/${audioFile[0]}/${audioFile}.mp3`
+  );
+  audio.play();
+}
+
 // Fetch and display quotes
 async function getData(query) {
   const apiUrl = `http://localhost:8080/https://favqs.com/api/quotes/?filter=${query}`;
