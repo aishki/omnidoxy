@@ -170,7 +170,7 @@ function playAudio(audioFile) {
 
 // Fetch and display quotes
 async function getData(query) {
-  const apiUrl = `https://omnidoxy.vercel.app/https://favqs.com/api/quotes/?filter=${query}`;
+  const apiUrl = `http://localhost:8080/https://favqs.com/api/quotes/?filter=${query}`;
 
   try {
     const response = await fetch(apiUrl, {
