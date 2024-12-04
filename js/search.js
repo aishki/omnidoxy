@@ -41,5 +41,4 @@ function initializeSearch() {
   }
 }
 
-// Initialize search functionality when the script is loaded
 document.addEventListener("DOMContentLoaded", initializeSearch);

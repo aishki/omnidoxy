@@ -193,6 +193,12 @@ async function getData(query) {
       return;
     }
 
+    // Add the search results header
+    const searchLabel = document.createElement("h2");
+    searchLabel.classList.add("search-label");
+    searchLabel.textContent = `Search Results for "${query}"`;
+    resultsContainer.appendChild(searchLabel);
+
     const { gradient, highlight } = getColorsForEmotion(query);
 
     data.quotes.forEach(({ body, author }) => {
@@ -226,6 +232,14 @@ async function getData(query) {
         })
       );
     });
+
+    // Check if quotes are present and apply the transform to dictionary container
+    if (data.quotes.length > 0) {
+      const dictionaryContainer = document.getElementById(
+        "dictionary-container"
+      );
+      dictionaryContainer.style.transform = "translateY(-50%)";
+    }
   } catch (error) {
     console.error("Error:", error);
   }
