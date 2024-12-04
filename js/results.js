@@ -170,7 +170,7 @@ function playAudio(audioFile) {
 
 // Fetch and display quotes
 async function getData(query) {
-  const apiUrl = `https://favqs.com/api/quotes/?filter=${query}`;
+  const apiUrl = `http://localhost:3000/proxy?url=https://favqs.com/api/quotes/?filter=${query}`;
 
   try {
     const response = await fetch(apiUrl, {
