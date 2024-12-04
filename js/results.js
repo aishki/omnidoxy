@@ -170,7 +170,7 @@ function playAudio(audioFile) {
 
 // Fetch and display quotes
 async function getData(query) {
-  const apiUrl = `http://localhost:3000/proxy?url=https://favqs.com/api/quotes/?filter=${query}`;
+  const url = `https://cors-anywhere.herokuapp.com/https://favqs.com/api/quotes/?filter=${query}`;
 
   try {
     const response = await fetch(apiUrl, {
