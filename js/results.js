@@ -170,7 +170,7 @@ function playAudio(audioFile) {
 
 // Fetch and display quotes
 async function getData(query) {
-  const apiUrl = `http://localhost:8080/https://favqs.com/api/quotes/?filter=${query}`;
+  const apiUrl = `https://favqs.com/api/quotes/?filter=${query}`;
 
   try {
     const response = await fetch(apiUrl, {
@@ -193,12 +193,7 @@ async function getData(query) {
       return;
     }
 
-    // Add the search results header
-    const searchLabel = document.createElement("h2");
-    searchLabel.classList.add("search-label");
-    searchLabel.textContent = `Search Results for "${query}"`;
-    resultsContainer.appendChild(searchLabel);
-
+    // Render results...
     const { gradient, highlight } = getColorsForEmotion(query);
 
     data.quotes.forEach(({ body, author }) => {
@@ -223,23 +218,7 @@ async function getData(query) {
       quoteElement.appendChild(quoteText);
       quoteElement.appendChild(authorText);
       resultsContainer.appendChild(quoteElement);
-
-      document.querySelectorAll(".highlight").forEach((span) =>
-        span.addEventListener("click", async (e) => {
-          const word = e.target.textContent;
-          const details = await fetchWordDetails(word);
-          displayWordDetails(word, details);
-        })
-      );
     });
-
-    // Check if quotes are present and apply the transform to dictionary container
-    if (data.quotes.length > 0) {
-      const dictionaryContainer = document.getElementById(
-        "dictionary-container"
-      );
-      dictionaryContainer.style.transform = "translateY(-50%)";
-    }
   } catch (error) {
     console.error("Error:", error);
   }
